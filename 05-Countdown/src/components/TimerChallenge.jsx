@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 // Functional component for the Timer Challenge
 export default function TimerChallenge({ title, targetTime }) {
-  // State to track whether the timer has started and whether it has expired
+  // Ref to hold the timer ID
+  const timer = useRef();
+
+  // States to track whether the timer has started and whether it has expired
   const [timerStarted, setTimerStarted] = useState(false);
   const [timerExpired, setTimerExpired] = useState(false);
 
   // Function to handle the start button click
   function handleStart() {
     // Set a timeout to mark the timer as expired after the target time
-    setTimeout(() => {
+    timer.current = setTimeout(() => {
       setTimerExpired(true);
     }, targetTime * 1000);
 
@@ -17,9 +20,10 @@ export default function TimerChallenge({ title, targetTime }) {
     setTimerStarted(true);
   }
 
-  // Function to handle the stop button click (not implemented)
+  // Function to handle the stop button click
   function handleStop() {
-    // Placeholder for handling stop functionality if needed
+    // Clear the timeout to stop the timer
+    clearTimeout(timer.current);
   }
 
   // JSX for the Timer Challenge component
@@ -35,7 +39,7 @@ export default function TimerChallenge({ title, targetTime }) {
       </p>
       <p>
         {/* Button to start or stop the challenge based on the timer state */}
-        <button onClick={handleStart}>
+        <button onClick={timerStarted ? handleStop : handleStart}>
           {timerStarted ? 'Stop' : 'Start'} Challenge
         </button>
       </p>
