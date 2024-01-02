@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import ResultModal from './ResultModal.jsx';
 
 // Functional component for the Timer Challenge
 export default function TimerChallenge({ title, targetTime }) {
@@ -26,27 +27,30 @@ export default function TimerChallenge({ title, targetTime }) {
     clearTimeout(timer.current);
   }
 
-  // JSX for the Timer Challenge component
   return (
-    <section className="challenge">
-      {/* Display the challenge title */}
-      <h2>{title}</h2>
-      {/* Display a message if the timer has expired */}
-      {timerExpired && <p>You lost!</p>}
-      {/* Display the target time for the challenge */}
-      <p className="challenge-time">
-        {targetTime} second{targetTime > 1 ? 's' : ''}
-      </p>
-      <p>
+    <>
+      {/* Display the ResultModal if the timer has expired */}
+      {timerExpired && <ResultModal targetTime={targetTime} result="lost" />}
+      
+      {/* Section for the Timer Challenge */}
+      <section className="challenge">
+        {/* Display the challenge title */}
+        <h2>{title}</h2>
+        {/* Display the target time for the challenge */}
+        <p className="challenge-time">
+          {targetTime} second{targetTime > 1 ? 's' : ''}
+        </p>
         {/* Button to start or stop the challenge based on the timer state */}
-        <button onClick={timerStarted ? handleStop : handleStart}>
-          {timerStarted ? 'Stop' : 'Start'} Challenge
-        </button>
-      </p>
-      {/* Display a status message based on the timer state */}
-      <p className={timerStarted ? 'active' : undefined}>
-        {timerStarted ? 'Time is running...' : 'Timer inactive'}
-      </p>
-    </section>
+        <p>
+          <button onClick={timerStarted ? handleStop : handleStart}>
+            {timerStarted ? 'Stop' : 'Start'} Challenge
+          </button>
+        </p>
+        {/* Display a status message based on the timer state */}
+        <p className={timerStarted ? 'active' : undefined}>
+          {timerStarted ? 'Time is running...' : 'Timer inactive'}
+        </p>
+      </section>
+    </>
   );
 }
