@@ -1,54 +1,68 @@
 import { useState, useRef } from 'react';
+
 import ResultModal from './ResultModal.jsx';
 
-// Functional component for the Timer Challenge
+// Declare the TimerChallenge component
 export default function TimerChallenge({ title, targetTime }) {
-  // Ref to hold the timer ID
+  // useRef to hold the timer and dialog components
   const timer = useRef();
+  const dialog = useRef();
 
-  // States to track whether the timer has started and whether it has expired
-  const [timerStarted, setTimerStarted] = useState(false);
-  const [timerExpired, setTimerExpired] = useState(false);
+  // State to manage the remaining time
+  const [timeRemaining, setTimeRemaining] = useState(targetTime * 1000);
 
-  // Function to handle the start button click
+  // Check if the timer is active
+  const timerIsActive = timeRemaining > 0 && timeRemaining < targetTime * 1000;
+
+  // Check if time has run out
+  if (timeRemaining <= 0) {
+    clearInterval(timer.current);
+    dialog.current.open(); // Open the result modal when time is up
+  }
+
+  // Reset the timer
+  function handleReset() {
+    setTimeRemaining(targetTime * 1000);
+  }
+
+  // Start the timer
   function handleStart() {
-    // Set a timeout to mark the timer as expired after the target time
-    timer.current = setTimeout(() => {
-      setTimerExpired(true);
-    }, targetTime * 1000);
-
-    // Set the timer as started
-    setTimerStarted(true);
+    timer.current = setInterval(() => {
+      setTimeRemaining((prevTimeRemaining) => prevTimeRemaining - 10);
+    }, 10);
   }
 
-  // Function to handle the stop button click
+  // Stop the timer
   function handleStop() {
-    // Clear the timeout to stop the timer
-    clearTimeout(timer.current);
+    dialog.current.open(); // Open the result modal when stopping the timer
+    clearInterval(timer.current);
   }
 
+  // JSX structure for the TimerChallenge component
   return (
     <>
-      {/* Display the ResultModal if the timer has expired */}
-      {timerExpired && <ResultModal targetTime={targetTime} result="lost" />}
-      
-      {/* Section for the Timer Challenge */}
+      {/* ResultModal component for displaying results */}
+      <ResultModal
+        ref={dialog}
+        targetTime={targetTime}
+        remainingTime={timeRemaining}
+        onReset={handleReset}
+      />
+      {/* TimerChallenge UI */}
       <section className="challenge">
-        {/* Display the challenge title */}
         <h2>{title}</h2>
-        {/* Display the target time for the challenge */}
         <p className="challenge-time">
           {targetTime} second{targetTime > 1 ? 's' : ''}
         </p>
-        {/* Button to start or stop the challenge based on the timer state */}
         <p>
-          <button onClick={timerStarted ? handleStop : handleStart}>
-            {timerStarted ? 'Stop' : 'Start'} Challenge
+          {/* Button to start or stop the timer */}
+          <button onClick={timerIsActive ? handleStop : handleStart}>
+            {timerIsActive ? 'Stop' : 'Start'} Challenge
           </button>
         </p>
-        {/* Display a status message based on the timer state */}
-        <p className={timerStarted ? 'active' : undefined}>
-          {timerStarted ? 'Time is running...' : 'Timer inactive'}
+        {/* Display timer status */}
+        <p className={timerIsActive ? 'active' : undefined}>
+          {timerIsActive ? 'Time is running...' : 'Timer inactive'}
         </p>
       </section>
     </>

@@ -1,33 +1,32 @@
+// Import necessary dependencies from React
 import { useState, useRef } from 'react';
 
-// Functional component for the Player
+// Define the Player component
 export default function Player() {
-  // Create a ref to hold the input element reference
+  // Create a ref to hold the player name input element
   const playerName = useRef();
 
-  // State to store the entered player name
+  // State to track the entered player name
   const [enteredPlayerName, setEnteredPlayerName] = useState(null);
-  
-  // Event handler for the button click
+
+  // Function to handle button click, sets entered player name and resets input field
   function handleClick() {
-    // Set enteredPlayerName to the current value of the input element
+    // Set entered player name based on the value in the input field
     setEnteredPlayerName(playerName.current.value);
-    // Clear the input field after setting the player name
+    
+    // Reset the input field to an empty value
     playerName.current.value = '';
   }
 
-  // JSX for the Player component
+  // Render the Player component
   return (
     <section id="player">
-      {/* Display the player name or 'unknown entity' if not set */}
+      {/* Display a welcome message with the entered player name or a default message */}
       <h2>Welcome {enteredPlayerName ?? 'unknown entity'}</h2>
+      
+      {/* Input field to enter the player name and a button to set the name */}
       <p>
-        {/* Input field with ref pointing to playerName variable */}
-        <input
-          ref={playerName}
-          type="text"
-        />
-        {/* Button triggers the handleClick function on click */}
+        <input ref={playerName} type="text" />
         <button onClick={handleClick}>Set Name</button>
       </p>
     </section>
