@@ -1,21 +1,20 @@
-// Importing the 'useState' hook from React, as well as the necessary components.
-import React from 'react';
 import { useState } from 'react';
+
 import NewProject from './assets/components/NewProject.jsx';
 import NoProjectSelected from './assets/components/NoProjectSelected.jsx';
 import ProjectsSidebar from './assets/components/ProjectsSidebar.jsx';
 
-// This is the main App component.
+// This is the main App component
 function App() {
-  // Using the 'useState' hook to manage the state of projects.
+  // State for managing project-related information
   const [projectsState, setProjectsState] = useState({
-    selectedProjectId: undefined, // Initially, no project is selected (undefined).
+    selectedProjectId: undefined,
     projects: []
   });
 
-  // Function to handle the start of adding a new project.
+  // Function to handle the initiation of adding a new project
   function handleStartAddProject() {
-    // Update the state to indicate that a new project is being added.
+    // Update state to set the selectedProjectId to null
     setProjectsState(prevState => {
       return {
         ...prevState,
@@ -24,29 +23,24 @@ function App() {
     });
   }
 
-  // Variable to determine the content to be rendered based on the selected project.
+  // Variable to determine the content to be rendered based on the selectedProjectId
   let content;
 
-  // Check if a new project is being added.
+  // If no project is selected (selectedProjectId is null), display the NewProject component
   if (projectsState.selectedProjectId === null) {
     content = <NewProject />;
-  }
-  // Check if no project is selected.
+  } 
+  // If no project is currently selected and not in the process of adding a new project, display the NoProjectSelected component
   else if (projectsState.selectedProjectId === undefined) {
     content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
   }
 
-  // Render the main content of the application.
+  // The main component returns a main element containing the ProjectsSidebar and the determined content
   return (
     <main className="h-screen my-8 flex gap-8">
-      {/* ProjectsSidebar component for project navigation and actions */}
       <ProjectsSidebar onStartAddProject={handleStartAddProject} />
-
-      {/* Render the content based on the selected project */}
       {content}
     </main>
   );
 }
-
-// Exporting the App component as the default export.
 export default App;
