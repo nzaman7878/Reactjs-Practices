@@ -1,28 +1,20 @@
-// Import the noProjectImage and Button components from the specified file paths
 import noProjectImage from '../assets/no-projects.png';
 import Button from './Button.jsx';
 
-// This is a React functional component named NoProjectSelected
-// It takes in a prop onStartAddProject, which is a function to be called when creating a new project is initiated
 export default function NoProjectSelected({ onStartAddProject }) {
-  // The component returns a div element containing an image, heading, message, and a button
   return (
     <div className="mt-24 text-center w-2/3">
-      {/* Image indicating an empty task list */}
       <img
         src={noProjectImage}
         alt="An empty task list"
         className="w-16 h-16 object-contain mx-auto"
       />
-      {/* Heading indicating that no project is selected */}
       <h2 className="text-xl font-bold text-stone-500 my-4">
         No Project Selected
       </h2>
-      {/* Message indicating that a project needs to be selected or a new one created */}
       <p className="text-stone-400 mb-4">
         Select a project or get started with a new one
       </p>
-      {/* Button to initiate the creation of a new project, with an onClick event handler */}
       <p className="mt-8">
         <Button onClick={onStartAddProject}>Create new project</Button>
       </p>
