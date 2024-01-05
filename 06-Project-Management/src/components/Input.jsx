@@ -1,6 +1,7 @@
-// This is a React functional component named Input
-// It takes in props as an argument, including label, textarea, and any additional props
-export default function Input({ label, textarea, ...props }) {
+import { forwardRef } from 'react';
+
+// Input is a forwardRef component that can accept a ref
+const Input = forwardRef(function Input({ label, textarea, ...props }, ref) {
   // Define a string containing Tailwind CSS classes for styling the input elements
   const classes =
     'w-full p-1 border-b-2 rounded-sm border-stone-300 bg-stone-200 text-stone-600 focus:outline-none focus:border-stone-600';
@@ -14,12 +15,14 @@ export default function Input({ label, textarea, ...props }) {
       </label>
       {/* Conditional rendering: If textarea prop is true, render a textarea element; otherwise, render an input element */}
       {textarea ? (
-        // If textarea, apply the defined classes and spread any additional props to the textarea element
-        <textarea className={classes} {...props} />
+        // If textarea, apply the defined classes, forward the ref, and spread any additional props to the textarea element
+        <textarea ref={ref} className={classes} {...props} />
       ) : (
-        // If not textarea, apply the defined classes and spread any additional props to the input element
-        <input className={classes} {...props} />
+        // If not textarea, apply the defined classes, forward the ref, and spread any additional props to the input element
+        <input ref={ref} className={classes} {...props} />
       )}
     </p>
   );
-}
+});
+
+export default Input;
