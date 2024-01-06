@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import CartModal from './Cart.jsx';
+import CartModal from './CartModal.jsx';
 
 export default function Header({ cart, onUpdateCartItemQuantity }) {
   const modal = useRef();
