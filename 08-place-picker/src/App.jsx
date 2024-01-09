@@ -2,18 +2,16 @@ import { useRef, useState } from 'react';
 
 import Places from './components/Places.jsx';
 import { AVAILABLE_PLACES } from './data.js';
-import logoImg from './assets/logo.png';
+import Modal from './components/Modal.jsx';
 
+import logoImg from './assets/logo.png';
 
 function App() {
   const modal = useRef();
   const selectedPlace = useRef();
   const [pickedPlaces, setPickedPlaces] = useState([]);
 
-  function handleStartRemovePlace(id) {
-    modal.current.open();
-    selectedPlace.current = id;
-  }
+
 
   function handleStopRemovePlace() {
     modal.current.close();
@@ -29,16 +27,14 @@ function App() {
     });
   }
 
-  function handleRemovePlace() {
-    setPickedPlaces((prevPickedPlaces) =>
-      prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
-    );
-    modal.current.close();
-  }
+ 
 
   return (
     <>
-    
+      <Modal ref={modal}>
+        
+        
+      </Modal>
 
       <header>
         <img src={logoImg} alt="Stylized globe" />
